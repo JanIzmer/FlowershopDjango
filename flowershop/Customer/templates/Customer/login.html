@@ -1,0 +1,17 @@
+{% extends "flowershop/base.html" %}
+{% load static %}
+{% block title %}
+    
+{% endblock %}
+{% block content %}
+{%load static%}
+        <div>
+            <label for="{{ form.username.id_for_label }}">Nazwa użytkownika</label>
+            {{ form.username }}
+        </div>
+
+        <div>
+            <label for="{{ form.password.id_for_label }}">Hasło</label>
+            {{ form.password }}
+        </div>
+{% endblock %}
