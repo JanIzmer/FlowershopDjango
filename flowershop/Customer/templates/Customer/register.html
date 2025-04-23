@@ -1,0 +1,37 @@
+{% extends "flowershop/base.html" %}
+{% load static %}
+{% block title %}
+    Rejestracja
+{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'flowershop/css/login.css' %}">
+<div class="login-container">
+    <h2>Rejestracja</h2>
+    <form method="post" class="login-form">
+        {% csrf_token %}
+
+        {% if form.errors %}
+            <div class="form-errors">
+                {{ form.non_field_errors }}
+                {{ form.username.errors }}
+                {{ form.password.errors }}
+                {{ form.password2.errors }}
+            </div>
+        {% endif %}
+
+        <label for="{{ form.username.id_for_label }}">Nazwa użytkownika</label>
+        {{ form.username }}
+
+        <label for="{{ form.email.id_for_label }}">Email</label>
+        {{ form.email }}
+
+        <label for="{{ form.password1.id_for_label }}">Hasło</label>
+        {{ form.password }}
+
+        <label for="{{ form.password2.id_for_label }}">Powtórz hasło</label>
+        {{ form.password2 }}
+
+        <button type="submit">Zarejestruj się</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
 from .forms import RegisterForm, CustomerAuthenticationForm
+from django.contrib.auth.decorators import login_required
 
 def register_view(request):
     if request.method == "POST":
@@ -19,11 +20,13 @@ def login_view(request):
         form = CustomerAuthenticationForm(data=request.POST)
         if form.is_valid():
             login(request, form.get_user())
-            return redirect('home')
+            return redirect('title')
     else:
         form = CustomerAuthenticationForm()
     return render(request, 'Customer/login.html', {'form': form})
-    
+
+
+@login_required
 def logout_view(request):
     if request.method == 'POST':
         logout(request)

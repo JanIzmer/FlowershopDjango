@@ -4,8 +4,20 @@
     
 {% endblock %}
 {% block content %}
-{%load static%}
-            <h1>{{ product_list.product_name }}</h1>
-            <p>{{ product_list.product_name }}</p>
-            <p>{{ product_list.product_name }}</p>
+<link rel="stylesheet" href="{% static 'flowershop/css/product.css' %}">
+<div class="product-card">
+    <img src="{{ product_list.image.url }}" alt="{{ product_list.product_name }}" class="product-image">
+
+    <h2 class="product-title">{{ product_list.product_name }}</h2>
+    <p class="product-price">{{ product_list.price }} zł</p>
+
+    {% if user.is_authenticated %}
+        <form method="post" action="{% url 'add_to_cart' product_list.id %}">
+            {% csrf_token %}
+            <button type="submit" class="add-to-cart-btn">Dodaj do koszyka</button>
+        </form>
+    {% else %}
+        <p><a href="{% url 'login' %}" class="login-link">Zaloguj się</a>, aby dodać do koszyka.</p>
+    {% endif %}
+</div>
 {% endblock %}
