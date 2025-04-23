@@ -1,0 +1,57 @@
+{% extends "flowershop/base.html" %}
+{% load static %}
+{% load cart_extras %}
+
+{% block title %}
+    Twój koszyk
+{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'flowershop/css/order.css' %}">
+
+<div class="order-wrapper">
+  <div class="cart-section">
+    <h2>Podsumowanie zamówienia</h2>
+
+    {% for item in cart_items %}
+      <div class="cart-item">
+        <img src="{{ item.product.image.url }}" alt="{{ item.product.product_name }}">
+        <div class="item-details">
+          <h3>{{ item.product.product_name }}</h3>
+          <p>Ilość: {{ item.quantity }}</p>
+          <p>Cena: {{ item.total_price }} zł</p>
+
+          <div class="actions">
+            <form method="post" action="{% url 'decrease_quantity' item.id %}">
+              {% csrf_token %}
+              <button type="submit">➖</button>
+            </form>
+
+            <form method="post" action="{% url 'remove_from_cart' item.id %}">
+              {% csrf_token %}
+              <button type="submit">❌</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p>Koszyk jest pusty.</p>
+    {% endfor %}
+
+    {% if cart_items %}
+      <div class="cart-summary">
+        <p><strong>Łączna cena:</strong> {{ cart_items|calc_total_price }} zł</p>
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="form-section">
+    <h2>Dane do zamówienia</h2>
+    <form method="post" action="{% url 'place_order' %}">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="order-btn">Złóż zamówienie</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -4,10 +4,16 @@ from title.models import Product
 from Customer.models import Customer
 
 class Order(models.Model):
+    DELIVERY_CHOICES = [
+    ('courier', 'Kurier'),
+    ('pickup', 'Odbiór osobisty'),
+]
     customer = models.ForeignKey("Customer.Customer", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     shipping_address = models.TextField(blank=True, null=True)
     status = models.CharField(max_length=50, default='Pending')
+    delivery_method = models.CharField(max_length=20, choices=DELIVERY_CHOICES, default=DELIVERY_CHOICES[1])
+
     
     def __str__(self):
         return f"Order {self.id} by {self.customer.user.username}"

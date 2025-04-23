@@ -14,6 +14,7 @@ def place_order(request):
     messages.success(request, "Zamówienie zostało złożone!")
     return redirect('cart_view')
 
+
 @login_required
 def cart_view(request):
     customer = Customer.objects.get(user=request.user)

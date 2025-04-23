@@ -40,9 +40,8 @@
             <p><strong>Łączna cena:</strong> 
                 {{ cart_items|calc_total_price }} zł
             </p>
-            <form method="post" action="{% url 'place_order' %}">
-                {% csrf_token %}
-                <button type="submit" class="order-btn">Złóż zamówienie</button>
+            <form method="get" action="{% url 'order_view' %}">
+                <button type="submit" class="order-btn">Zamówienie</button>
             </form>
         </div>
     {% endif %}
