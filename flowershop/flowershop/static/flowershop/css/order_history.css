@@ -1,0 +1,82 @@
+/* Container for orders */
+.order-history-container {
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    position: relative; 
+    z-index: 10; 
+}
+
+
+.order-item {
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    position: relative; 
+    z-index: 10; 
+}
+
+
+.order-header {
+    display: flex;
+    align-items: center; 
+    justify-content: space-between; 
+    margin-bottom: 10px; 
+}
+
+
+.order-status {
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #fff;
+    position: relative; 
+    z-index: 10; 
+}
+
+
+.order-details p {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+
+.order-products ul {
+    list-style-type: none;
+    padding: 0;
+    position: relative; 
+    z-index: 10; 
+}
+
+.order-products li {
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+
+.order-actions .view-details {
+    padding: 8px 15px;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    position: relative; 
+    z-index: 10; 
+}
+
+.order-actions .view-details:hover {
+    background-color:  rgba(255, 255, 255, 0.35);
+}
+.circle {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: red;
+  }
+  .status-container {
+    display: flex;
+    align-items: center; /* Wyrównuje elementy w pionie */
+  }
+

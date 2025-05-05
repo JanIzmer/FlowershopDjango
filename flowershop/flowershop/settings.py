@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'Cart',
     'Customer',
     'Order',
+    'address',
     'flowershop',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -126,7 +127,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / "flowershop/static",  # To jest główny folder na pliki statyczne w projekcie
+    BASE_DIR / "flowershop/static", 
 ]
 
 # Default primary key field type
@@ -137,3 +138,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 LOGIN_URL = 'login' 
+
+#Default email settings
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp-relay.brevo.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = '8b6ee7001@smtp-brevo.com'
+EMAIL_HOST_PASSWORD = 'jVmGcnCFaOU1EzNf'
+DEFAULT_FROM_EMAIL = 'Flowershop <jan.izmer@gmail.com>'
+
+#
+GOOGLE_API_KEY = 'AIzaSyB3BcrMdWiIGS3h0dokNVk__yOkHvWRUhM'

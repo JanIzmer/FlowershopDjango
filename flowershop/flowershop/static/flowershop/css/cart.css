@@ -42,7 +42,7 @@
 }
 
 .actions form button {
-    background-color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.15);
     color: white;
     border: none;
     padding: 0.3rem 0.6rem;
@@ -52,7 +52,7 @@
 }
 
 .actions form button:hover {
-    background-color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.25);
 }
 .cart-summary {
     margin-top: 2rem;
@@ -61,8 +61,8 @@
 }
 
 .order-btn {
-    background-color: #fcfcfc;
-    color: rgb(0, 0, 0);
+    background-color: rgba(255, 255, 255, 0.15);
+    color: rgb(255, 255, 255);
     padding: 0.5rem 1rem;
     border: none;
     border-radius: 6px;
@@ -73,26 +73,10 @@
 }
 
 .order-btn:hover {
-    background-color: #9a9a9a;
+  background-color: rgba(255, 255, 255, 0.25);
 }
 .cart-summary {
   margin-top: 2rem;
   text-align: right;
   font-size: 1.2rem;
-}
-
-.order-btn {
-  background-color: #ffffff;
-  color: rgb(0, 0, 0);
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 6px;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 1rem;
-  transition: 0.2s;
-}
-
-.order-btn:hover {
-  background-color: #ffffff;
 }

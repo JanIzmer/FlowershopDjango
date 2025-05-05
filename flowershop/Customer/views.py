@@ -1,7 +1,23 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
-from .forms import RegisterForm, CustomerAuthenticationForm
+from .forms import RegisterForm, CustomerAuthenticationForm, CustomerProfileForm
+from Customer.models import Customer
 from django.contrib.auth.decorators import login_required
+
+
+@login_required
+def user_profile(request):
+    customer = Customer.objects.get(user=request.user)
+
+    if request.method == 'POST':
+        form = CustomerProfileForm(request.POST, instance=customer)
+        if form.is_valid():
+            form.save()
+            return render(request, 'Customer/profile.html', {'form': form, 'customer': customer})
+    else:
+        form = CustomerProfileForm(instance=customer)
+
+    return render(request, 'Customer/profile.html', {'form': form, 'customer': customer})
 
 def register_view(request):
     if request.method == "POST":

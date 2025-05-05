@@ -61,4 +61,13 @@ def decrease_quantity(request, product_id):
         item.delete()
     return redirect('cart_view')
 
+@login_required
+def increase_quantity(request, product_id):
+    customer = Customer.objects.get(user=request.user)
+    cart = Cart.objects.get(customer=customer)
+    item = get_object_or_404(CartItem, id=product_id, cart=cart)
+    item.quantity += 1
+    item.save()
+    return redirect('cart_view')
+
 # Create your views here.

@@ -6,15 +6,15 @@
 {% block content %}
 {%load static%}
 <div class="container text-center" id="product_container">
-    <div class="row gx-4 gy-4 row-cols-2 row-cols-md-3 row-cols-lg-4">
+    <div class="row gx-2 gy-3 row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 row-cols-xl-6">
       {% for product in products %}
         <div class="col">
-          <div class="product-card">
+          <div class="product-card-sm">
             <a href="{% url 'products' product.id %}">
-              <img src="{{ product.image.url }}" class="product-image" alt="{{ product.product_name }}">
+              <img src="{{ product.image.url }}" class="product-image-sm" alt="{{ product.product_name }}">
             </a>
-            <p class="product-name">{{ product.product_name }}</p>
-            <p class="product-price">{{ product.price }} zł</p>
+            <p class="product-name-sm">{{ product.product_name }}</p>
+            <p class="product-price-sm">{{ product.price }} zł</p>
           </div>
         </div>
       {% endfor %}

@@ -1,0 +1,52 @@
+{% extends "flowershop/base.html" %}
+{% load static %}
+{% load cart_extras %}
+
+{% block title %}
+    Prifil użytkownika
+{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'flowershop/css/profile.css' %}">
+<script src="{% static 'customer/js/profile.js' %}"></script>
+<div class="profile-container">
+    <h2>Profil klienta</h2>
+
+    
+    <div id="profileContent">
+      
+      <div id="profileData">
+        <p><strong>Imię:</strong> <span id="firstname">{{ customer.firstname }}</span></p>
+        <p><strong>Nazwisko:</strong> <span id="secondname">{{ customer.secondname }}</span></p>
+        <p><strong>Telefon:</strong> <span id="phone">{{ customer.phone }}</span></p>
+        <p><strong>Email:</strong> <span id="email">{{ customer.email }}</span></p>
+        <p><strong>Adres:</strong> <span id="address">{{ customer.address }}</span></p>
+      </div>
+
+      
+      <div id="profileEdit" style="display:none;">
+        <form id="editForm" method="post">
+            {% csrf_token %}
+            
+            <label for="firstnameEdit">Imię:</label>
+            {{ form.firstname }}
+            <br>
+            <label for="secondnameEdit">Nazwisko:</label>
+            {{ form.secondname }}
+            <br>
+            <label for="phoneEdit">Telefon:</label>
+            {{ form.phone }}
+            <br>
+            <label for="addressEdit">Adres:</label>
+            {{ form.address }}
+            <br>
+            <button type="submit">Zapisz zmiany</button>
+        </form>
+      </div>
+    </div>
+
+    
+    <button id="toggleButton">Edytuj</button>
+
+</div>
+{% endblock %}

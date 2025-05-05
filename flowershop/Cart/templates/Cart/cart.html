@@ -22,12 +22,16 @@
                 <div class="actions">
                     <form method="post" action="{% url 'decrease_quantity' item.id %}">
                         {% csrf_token %}
-                        <button type="submit">➖</button>
+                        <button type="submit">-</button>
+                    </form>
+                    <form method="post" action="{% url 'increase_quantity' item.id %}">
+                        {% csrf_token %}
+                        <button type="submit">+</button>
                     </form>
 
                     <form method="post" action="{% url 'remove_from_cart' item.id %}">
                         {% csrf_token %}
-                        <button type="submit">❌</button>
+                        <button type="submit">usuń</button>
                     </form>
                 </div>
             </div>

@@ -1,57 +1,122 @@
 {% extends "flowershop/base.html" %}
 {% load static %}
 {% load cart_extras %}
-
+{%block head%} <script src="https://maps.googleapis.com/maps/api/js?key={{ google_api_key }}&libraries=places&callback=initAutocomplete" async defer></script> {%endblock%}
 {% block title %}
     Twój koszyk
 {% endblock %}
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'flowershop/css/order.css' %}">
-
-<div class="order-wrapper">
-  <div class="cart-section">
-    <h2>Podsumowanie zamówienia</h2>
-
-    {% for item in cart_items %}
-      <div class="cart-item">
-        <img src="{{ item.product.image.url }}" alt="{{ item.product.product_name }}">
-        <div class="item-details">
-          <h3>{{ item.product.product_name }}</h3>
-          <p>Ilość: {{ item.quantity }}</p>
-          <p>Cena: {{ item.total_price }} zł</p>
-
-          <div class="actions">
-            <form method="post" action="{% url 'decrease_quantity' item.id %}">
-              {% csrf_token %}
-              <button type="submit">➖</button>
-            </form>
-
-            <form method="post" action="{% url 'remove_from_cart' item.id %}">
-              {% csrf_token %}
-              <button type="submit">❌</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    {% empty %}
-      <p>Koszyk jest pusty.</p>
-    {% endfor %}
-
-    {% if cart_items %}
-      <div class="cart-summary">
-        <p><strong>Łączna cena:</strong> {{ cart_items|calc_total_price }} zł</p>
-      </div>
-    {% endif %}
-  </div>
-
-  <div class="form-section">
-    <h2>Dane do zamówienia</h2>
-    <form method="post" action="{% url 'place_order' %}">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit" class="order-btn">Złóż zamówienie</button>
-    </form>
+<script src="{% static 'order/js/order_view.js' %}"></script>
+<div class="progress-container">
+  <div class="progress-bar" id="progress-bar"></div>
+  <div class="progress-steps">
+    <span class="step-label active">Koszyk</span>
+    <span class="step-label">Dane</span>
+    <span class="step-label">Dostawa</span>
   </div>
 </div>
+<div class="order-steps">
+    
+    <div class="step" id="step-1">
+      <h2>Krok 1: Twój koszyk</h2>
+      <div class="order-wrapper">
+        <div class="cart-section">
+          <h2>Podsumowanie zamówienia</h2>
+      
+          {% for item in cart_items %}
+            <div class="cart-item">
+              <img src="{{ item.product.image.url }}" alt="{{ item.product.product_name }}">
+              <div class="item-details">
+                <h3>{{ item.product.product_name }}</h3>
+                <p>Ilość: {{ item.quantity }}</p>
+                <p>Cena: {{ item.total_price }} zł</p>
+                <div class="actions">
+                  <form method="post" action="{% url 'decrease_quantity' item.id %}">
+                    {% csrf_token %}
+                    <button type="submit">-</button>
+                  </form>
+      
+                  <form method="post" action="{% url 'remove_from_cart' item.id %}">
+                    {% csrf_token %}
+                    <button type="submit">Usuń</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          {% empty %}
+            <p>Koszyk jest pusty.</p>
+          {% endfor %}
+      
+          {% if cart_items %}
+            <div class="cart-summary">
+              <p><strong>Łączna cena:</strong> {{ cart_items|calc_total_price }} zł</p>
+            </div>
+          {% endif %}
+            <button type="button" class="mybtn mybtn-primary" onclick="goToStep(2)">Dalej</button>
+        </div>
+      </div>  
+    </div>
+  
+    <form method="post">
+      {% csrf_token %}
+      
+      <div class="step" id="step-2">
+        <h2>Krok 2: Twoje dane</h2>
+          {% csrf_token %}
+          <label>{{ form.firstname.label_tag }}</label>
+          {{ form.firstname }}
+          <label>{{ form.secondname.label_tag }}</label>
+          {{ form.secondname }}
+          <label>{{ form.phone.label_tag }}</label>
+          {{ form.phone }}
+        <button type="button" class="mybtn mybtn-primary" onclick="goToStep(1)">Wstecz</button>
+        <button type="button" class="mybtn mybtn-primary" onclick="goToStep(3)">Dalej</button>
+      </div>
+    
+      
+      <div class="step" id="step-3" style="display:none;">
+        <h2>Krok 3: Dostawa</h2>
+        <div class="delivery-options">
+          <label>
+            <input type="radio" name="delivery_method" value="courier" required> Kurier
+          </label>
+          <div id="courierFields" style="display: none; margin-top: 20px; color: white;">
+          <label for="address">Adres</label>
+          <input type="text" id="address" name="address" placeholder="Wpisz adres" class="address-field">
+          <button type="button" id="fillAddressBtn">Uzupełnij adres</button>
+          <div id="addressDetails" style="display:none;">
+              <label for="street">Ulica</label>
+              <input type="text" id="street" name="street" readonly>
+
+              <label for="city">Miasto</label>
+              <input type="text" id="city" name="city" readonly>
+
+              <label for="postal_code">Kod pocztowy</label>
+              <input type="text" id="postal_code" name="postal_code" readonly>
+
+              <label for="country">Kraj</label>
+              <input type="text" id="country" name="country" readonly>
+          </div>
+
+        </div>
+          <label>
+            <input type="radio" name="delivery_method" value="pickup"> Odbiór osobisty
+          </label>
+        </div>
+        
+        
+        
+        <div id="pickupInfo" style="display: none; margin-top: 20px; color: white;">
+          <p>Adres odbioru osobistego:</p>
+          <p>ul. Przykładowa 123, 00-000 Miasto</p>
+          <p>Telefon kontaktowy: 123-456-789</p>
+        </div>
+        <button type="button" class="mybtn mybtn-primary" onclick="goToStep(2)">Wstecz</button>
+        <button type="submit" class="mybtn mybtn-secondary">Złóż zamówienie</button>
+      </div>
+    </form>
+  
+  </div>
 {% endblock %}

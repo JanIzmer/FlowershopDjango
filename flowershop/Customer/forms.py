@@ -27,3 +27,8 @@ class CustomerAuthenticationForm(AuthenticationForm):
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Hasło'})
     )
+
+class CustomerProfileForm(forms.ModelForm):
+    class Meta:
+        model = Customer
+        fields = ['firstname', 'secondname', 'phone', 'address']

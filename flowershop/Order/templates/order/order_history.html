@@ -1,0 +1,45 @@
+{% extends "flowershop/base.html" %}
+{% load static %}
+{% load cart_extras %}
+
+{% block title %}
+    Histotia zamówień
+{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'flowershop/css/order_history.css' %}">
+<script src="{% static 'order/js/order_history.js' %}"></script>
+<div class="order-history-container">
+    <h2>Twoja historia zamówień</h2>
+
+    {% for order_detail in order_details %}
+        <div class="order-item">
+            <div class="order-header">
+                <span class="order-id">Zamówienie nr {{ order_detail.order.id }}</span>
+                <div class="status-container">
+                    <p class="order-status">{{ order_detail.order.get_status_display }}</p>
+                    <div class="circle"></div>
+                </div>
+            </div>
+
+            <div class="order-details">
+                <p><strong>Data zamówienia:</strong> {{ order_detail.order.created_at }}</p>
+                
+            </div>
+            <div class="order-products">
+                <h4>Produkty w zamówieniu:</h4>
+                <ul>
+                    {% for order_product in order_detail.products %}
+                        <li>{{ order_product.product.product_name }} ({{ order_product.quantity }} x {{ order_product.product.price }} zł)</li>
+                    {% endfor %}
+                    <p>Wartość zamówienia: {{order_detail.products|calc_total_price}} zł</p>
+                </ul>
+            </div>
+
+        </div>
+    {% empty %}
+        <p>Nie masz jeszcze żadnych zamówień.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}
